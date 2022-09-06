@@ -2,12 +2,10 @@ from urllib import response
 from flask import Flask, render_template, redirect, url_for, request, abort
 import requests
 
-
 app = Flask(__name__)
 
-
-SITE_KEY = 'GET YOUR OWN KEY'
-SECRET_KEY = 'GET YOUR OWN KEY'
+SITE_KEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+SECRET_KEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
 
 
@@ -21,6 +19,7 @@ def sign_up_user():
     secret_response = request.form['g-recaptcha-response']
 
     verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRET_KEY}&response={secret_response}').json()
+    print(verify_response)
 
     if verify_response['success'] == False or verify_response['score'] < 0.5:
         abort(401)
@@ -29,4 +28,4 @@ def sign_up_user():
 
 
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
